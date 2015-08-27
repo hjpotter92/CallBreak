@@ -1,0 +1,133 @@
+@charset "utf-8";
+body {
+	font: 62.5% Verdana, Arial, Helvetica, sans-serif;
+	background: #4E5869;
+	margin: 0;
+	padding: 0;
+	color: #1E1E1E;
+}
+h1, h2, h3, h4, h5, h6, p {
+	margin-top: 0;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+a img {
+	border: none;
+}
+a:link {
+	color:#414958;
+	text-decoration: underline;
+}
+a:visited {
+	color: #4E5869;
+	text-decoration: underline;
+}
+a:hover, a:active, a:focus {
+	text-decoration: none;
+}
+.container {
+	width: 80%;
+	max-width: 1260px;
+	min-width: 780px;
+	background: #EFEFEF;
+	margin: 0 auto;
+	font-size: 1.4em;
+}
+.header {
+	background: #6F7D94;
+}
+.sidebar1 {
+	float: left;
+	width: 30%;
+	background: #93A5C4;
+	margin: 0px auto;
+	padding: 10px 0px;
+}
+#miniCard > div {
+	text-align: center;
+	vertical-align: middle;
+}
+.cardHead {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+#miniCard, #card {
+	display: table;
+	text-align: center;
+	margin: 0px auto;
+	width: 100%;
+}
+#miniCard div div {
+	padding: .2em .7em;
+	border: .1em dashed #FC3;
+}
+.content {
+	padding: 10px 0;
+	width: 70%;
+	float: left;
+}
+.content ul, .content ol {
+	padding: 0 15px 15px 40px;
+}
+ul.nav {
+	list-style: none;
+	border-top: 1px solid #666;
+	margin-bottom: 15px;
+}
+ul.nav li {
+	border-bottom: 1px solid #666;
+}
+ul.nav a, ul.nav a:visited {
+	padding: 5px 5px 5px 15px;
+	display: block;
+	text-decoration: none;
+	background: #8090AB;
+	color: #000;
+}
+ul.nav a:hover, ul.nav a:active, ul.nav a:focus {
+	background: #6F7D94;
+	color: #FFF;
+}
+.footer {
+	padding: 10px 0;
+	background: #6F7D94;
+	position: relative;
+	clear: both;
+	font-size: 0.8em;
+	margin: 0px auto;
+	text-align: center;
+	vertical-align: middle;
+}
+.players {
+	font-size: 1.4em;
+	font-weight: bold;
+	padding: .3em .8em;
+}
+#playerName {
+	text-align: center;
+	padding: .5em;
+}
+.clearfloat {
+	clear:both;
+	height:0;
+	font-size: 1px;
+	line-height: 0px;
+}
+#logo {
+	background: #8090AB;
+	display: box;
+}
+.tr {
+	display: table-row;
+}
+.tr > div {
+	display: table-cell;
+	padding: .2em .7em;
+}
+input.number {
+	width: 2em;
+}
+.negative {
+	color: #900;
+	font-weight: bolder;
+}
