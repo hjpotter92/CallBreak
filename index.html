@@ -1,138 +1,137 @@
 <!DOCTYPE HTML>
 <html>
-<head>
-<meta charset="utf-8" />
-<title>Call Break » Score Card</title>
-<link href="assets/css/callBreak.css" rel="stylesheet" type="text/css">
-<script language="JavaScript" src="assets/js/jquery-1.11.3.min.js" type="text/javascript"></script>
-<script language="JavaScript" type="text/javascript">
-	var players = [],
-		rounds = 1;
-	function NewRound( $target ) {
-		var $tr = $( '<div />', {class: 'tr'} );
-		$tr.append( $('<div />', {text: rounds++}) );
-		for( var i = 0; i < players.length; i++ ) {
-			var $call = $( '<input />', {type: 'number', max: 7, min: 2, value: 2, step: 1, class: 'call number', required: true} ),
-				$hands = $( '<input />', {type: 'number', max: 13, min: 0, step: 1, class: 'hand number', disabled: true} );
-			$tr.append( $('<div />').append($call).append($hands) );
-		}
-		$tr.append( $('<input />', {type: 'button', value: 'Start round', class: 'roundStart'}) );
-		$target.append( $tr );
-	}
-	$(document).ready(function(e) {
-		var $minicard = $('#miniCard'),
-			$card = $('#card'),
-			$sheet = $('#card .players'),
-			$player = $('#player'),
-			$start = $('#start');
-		$player.on( 'keydown', function(evnt) {
-			var name = $(this).val(),
-				$tr = $( '<div />', {class: 'tr'} );
-			if( evnt.keyCode == 13 ) {
-				if( name.length === 0 && players.length > 2 ) {
-					$player.hide();
-					$start.hide();
-					NewRound( $card );
-				}
-				if( name.length >= 3 ) {
-					$(this).val('');
-					$minicard.append( $tr.append( $('<div />', {text: name}) )
-						.append( $('<div />', {text: 0}) )
-					);
-					$sheet.append( $('<div />', {text: name}) );
-					if( $('#miniCard .tr').length >= 4 )
-						$start.removeAttr( 'disabled' );
-					players.push( {name: name, score: 0, rounds: []} );
-				}
-			}
-		});
-		$start.on( 'click', function(evnt) {
-			evnt.preventDefault();
-			$player.hide();
-			$(this).hide();
-			NewRound( $card );
-		});
-		$card.on( 'click', '.roundStart', function(evnt) {
-			evnt.preventDefault();
-			var total = 0;
-			$(this).siblings().not(':first').each( function(index, element) {
-				var $call = $(element).children( '.call' ),
-					call = $call.val();
-				total += parseInt( call );
-			});
-			if( total < 10 ) {
-				alert( "The sum total of bids should be more than 10 to start the round." );
-				return;
-			}
-			$(this).siblings().not(':first').each( function(index, element) {
-				var $element = $( element ),
-					$call = $element.children( '.call' ),
-					call = $call.val(),
-					$hand = $call.siblings( '.hand' );
-				$hand.removeAttr( 'disabled' ).attr( 'data-call', call );
-				$call.remove();
-			});
-			$(this).val( 'Compute score' ).toggleClass( 'compute roundStart' );
-		});
-		$card.on( 'click', '.compute', function(evnt) {
-			var $scores = $('#miniCard .tr div:odd:not(:first)');
-			evnt.preventDefault();
-			var total = 0;
-			$(this).siblings().not(':first').each( function(index, element) {
-				var $hand = $(element).children( '.hand' ),
-					hand = $hand.val() || 0;
-				total += parseInt( hand );
-			});
-			if( total !== parseInt(52 / players.length) ) {
-				alert( "Error! Sum of hands inconsistent." );
-				return;
-			}
-			$(this).siblings().not(':first').each( function(index, element) {
-				var $element = $( element ),
-					$hand = $element.children( '.hand' ),
-					call = $hand.data( 'call' ),
-					hand = $hand.val();
-				var score = ( hand < call ) ? call * -10 : (call >= 7) ? 140 : (call + 2 < hand) ? -10 * hand : (10 * call + 2 * (hand - call));
-				$(this).html( score ).attr( 'title', 'Call: ' + call + ' Hands: ' + hand );
-				if( score < 0 )
-					$(this).addClass( 'negative' );
-				players[index].score += score;
-				players[index].rounds.push( score );
-				$($scores[index]).text( players[index].score );
-			});
-			$(this).remove();
-			NewRound( $card );
-		});
-	});
-</script>
-</head>
-
-<body>
-<div class="container">
-	<div class="header">
-		<div id="logo"><a href="#"><img src="assets/images/icon.png" alt="Call Break logo" name="logo" height="90" id="Insert_logo" /> </a> </div>
-		<p>Call Break &middot; Card game &raquo; Score card</p>
-	</div>
-	<div class="sidebar1">
-		<div id="playerName">
-			<input name="player" id="player" type="text" dir="ltr" lang="en" size="24">
-			<input name="Start" type="button" disabled id="start" value="Start game!">
-		</div>
-		<div id="miniCard">
-			<div class="cardHead tr">
-				<div>Player Name</div>
-				<div>Score</div>
-			</div>
-		</div>
-	</div>
-	<div class="content">
-		<div id="card">
-			<div class="players tr">
-				<div>Round</div>
-			</div>
-		</div>
-	</div>
-	<div class="footer"> &copy; hjpotter92 </div>
-</div>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Call Break » Score Card</title>
+    <link href="assets/css/callBreak.css" rel="stylesheet" type="text/css">
+    <script language="JavaScript" src="assets/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+    <script language="JavaScript" type="text/javascript">
+     var players = [],
+         rounds = 1;
+     function NewRound($target) {
+       var $tr = $('<div />', {class: 'tr'});
+       $tr.append($('<div />', {text: rounds++}));
+       for(var i = 0; i < players.length; i++) {
+         var $call = $('<input />', {type: 'number', max: 7, min: 2, value: 2, step: 1, class: 'call number', required: true}),
+             $hands = $('<input />', {type: 'number', max: 13, min: 0, step: 1, class: 'hand number', disabled: true});
+         $tr.append($('<div />').append($call).append($hands));
+       }
+       $tr.append($('<input />', {type: 'button', value: 'Start round', class: 'roundStart'}));
+       $target.append($tr);
+     }
+     $(document).ready(function(e) {
+       var $minicard = $('#miniCard'),
+           $card = $('#card'),
+           $sheet = $('#card .players'),
+           $player = $('#player'),
+           $start = $('#start');
+       $player.on('keydown', function(evnt) {
+         var name = $(this).val(),
+             $tr = $('<div />', {class: 'tr'});
+         if(evnt.keyCode == 13) {
+           if(name.length === 0 && players.length > 2) {
+             $player.hide();
+             $start.hide();
+             NewRound($card);
+           }
+           if(name.length >= 3) {
+             $(this).val('');
+             $minicard.append($tr.append($('<div />', {text: name}))
+                                  .append($('<div />', {text: 0}))
+            );
+             $sheet.append($('<div />', {text: name}));
+             if($('#miniCard .tr').length >= 4)
+               $start.removeAttr('disabled');
+             players.push({name: name, score: 0, rounds: []});
+           }
+         }
+       });
+       $start.on('click', function(evnt) {
+         evnt.preventDefault();
+         $player.hide();
+         $(this).hide();
+         NewRound($card);
+       });
+       $card.on('click', '.roundStart', function(evnt) {
+         evnt.preventDefault();
+         var total = 0;
+         $(this).siblings().not(':first').each(function(index, element) {
+           var $call = $(element).children('.call'),
+               call = $call.val();
+           total += parseInt(call);
+         });
+         if(total < 10) {
+           alert("The sum total of bids should be more than 10 to start the round.");
+           return;
+         }
+         $(this).siblings().not(':first').each(function(index, element) {
+           var $element = $(element),
+               $call = $element.children('.call'),
+               call = $call.val(),
+               $hand = $call.siblings('.hand');
+           $hand.removeAttr('disabled').data('call', call);
+           $call.remove();
+         });
+         $(this).val('Compute score').toggleClass('compute roundStart');
+       });
+       $card.on('click', '.compute', function(evnt) {
+         var $scores = $('#miniCard .tr div:odd:not(:first)');
+         evnt.preventDefault();
+         var total = 0;
+         $(this).siblings().not(':first').each(function(index, element) {
+           var $hand = $(element).children('.hand'),
+               hand = $hand.val() || 0;
+           total += parseInt(hand);
+         });
+         if(total !== parseInt(52 / players.length)) {
+           alert("Error! Sum of hands inconsistent.");
+           return;
+         }
+         $(this).siblings().not(':first').each(function(index, element) {
+           var $element = $(element),
+               $hand = $element.children('.hand'),
+               call = $hand.data('call'),
+               hand = $hand.val();
+           var score = (hand < call) ? call * -10 : (call >= 7) ? 140 : (call + 2 < hand) ? -10 * hand : (10 * call + 2 * (hand - call));
+           $(this).html(score).attr('title', 'Call: ' + call + ' Hands: ' + hand);
+           if(score < 0)
+             $(this).addClass('negative');
+           players[index].score += score;
+           players[index].rounds.push(score);
+           $($scores[index]).text(players[index].score);
+         });
+         $(this).remove();
+         NewRound($card);
+       });
+     });
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div id="logo"><a href="#"><img src="assets/images/icon.png" alt="Call Break logo" name="logo" height="90" id="Insert_logo" /> </a> </div>
+        <p>Call Break &middot; Card game &raquo; Score card</p>
+      </div>
+      <div class="sidebar1">
+        <div id="playerName">
+          <input name="player" id="player" type="text" dir="ltr" lang="en" size="24">
+          <input name="Start" type="button" disabled id="start" value="Start game!">
+        </div>
+        <div id="miniCard">
+          <div class="cardHead tr">
+            <div>Player Name</div>
+            <div>Score</div>
+          </div>
+        </div>
+      </div>
+      <div class="content">
+        <div id="card">
+          <div class="players tr">
+            <div>Round</div>
+          </div>
+        </div>
+      </div>
+      <div class="footer"> &copy; hjpotter92 </div>
+    </div>
+  </body>
 </html>
