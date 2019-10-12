@@ -13,6 +13,24 @@ export default class PlayerComponent extends Component {
     };
   }
 
+  getCall() {
+    const { call } = this.state;
+    return call;
+  }
+
+  getHand() {
+    const { hand } = this.state;
+    return hand;
+  }
+
+  setCall(call) {
+    this.setState({ call });
+  }
+
+  setHand(hand) {
+    this.setState({ hand });
+  }
+
   getTotalScore() {
     return this.state.totalScore;
   }
@@ -33,27 +51,29 @@ export default class PlayerComponent extends Component {
   }
 
   computeScore() {
-    const { hand, call } = this.state;
+    const { hand, call, totalScore } = this.state;
     let score = 0;
     if ((call > hand) || ((call + 2) < hand)) {
-      score = hand * -10;
+      score = Math.max(call, hand) * -10;
     } else if (call >= 7) {
       score = 140;
     } else {
       score = call * 10 + 2 * (hand - call);
     }
     this.setState({
-      currentScore: score
+      currentScore: score,
+      totalScore: totalScore + score
     });
   }
 
   render() {
-    const { name, totalScore, call } = this.state;
+    const { name, totalScore, call, hand } = this.state;
     return (
       <div>
         <p>{name}</p>
-        <p>{totalScore}</p>
-        <p>{call}</p>
+        <p>Score: {totalScore}</p>
+        <p>Current call: {call}</p>
+        <p>Current hand: {hand}</p>
       </div>
     );
   }
