@@ -1,20 +1,12 @@
 import React, { Component, createRef } from 'react';
 import PlayerComponent from './Player';
 
-const demo = Array(4).fill(1).map(e => {
-  let ref = createRef();
-  return {
-    ref: ref,
-    component: <PlayerComponent ref={ref} name={e} />
-  };
-})
-
 export default class GameComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
       dummy: '',
-      players: demo,
+      players: [],
       inputValues: [],
       round: 0,
       gameState: 'new',
