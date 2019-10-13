@@ -1,0 +1,7 @@
+.git/
+node_modules/
+GPATH
+GRTAGS
+GTAGS
+*~
+src/*~
