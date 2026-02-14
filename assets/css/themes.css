@@ -1,0 +1,52 @@
+/* Theme palettes - applied via data attributes */
+[data-palette='classic'] {
+  --cb-bg: #f5f0e6;
+  --cb-text: #1a1a1a;
+  --cb-accent: #2d5a27;
+  --cb-surface: #e8e0d0;
+}
+[data-palette='classic'].dark {
+  --cb-bg: #1a1a1a;
+  --cb-text: #f5f0e6;
+  --cb-accent: #4a7c43;
+  --cb-surface: #1e3d1e;
+}
+
+[data-palette='slate'] {
+  --cb-bg: #fafafa;
+  --cb-text: #0f172a;
+  --cb-accent: #3b82f6;
+  --cb-surface: #f1f5f9;
+}
+[data-palette='slate'].dark {
+  --cb-bg: #0f172a;
+  --cb-text: #f8fafc;
+  --cb-accent: #60a5fa;
+  --cb-surface: #1e293b;
+}
+
+[data-palette='amber'] {
+  --cb-bg: #fefce8;
+  --cb-text: #292524;
+  --cb-accent: #d97706;
+  --cb-surface: #fef3c7;
+}
+[data-palette='amber'].dark {
+  --cb-bg: #292524;
+  --cb-text: #fefce8;
+  --cb-accent: #f59e0b;
+  --cb-surface: #44403c;
+}
+
+[data-palette='ocean'] {
+  --cb-bg: #f0f9ff;
+  --cb-text: #0c4a6e;
+  --cb-accent: #0d9488;
+  --cb-surface: #e0f2fe;
+}
+[data-palette='ocean'].dark {
+  --cb-bg: #0c4a6e;
+  --cb-text: #f0fdfa;
+  --cb-accent: #2dd4bf;
+  --cb-surface: #164e63;
+}
