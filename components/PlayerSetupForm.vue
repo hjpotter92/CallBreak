@@ -7,6 +7,8 @@ const gameStore = useGameStore()
 
 const MIN_PLAYERS = 2
 const MAX_PLAYERS = 6
+const MIN_TARGET_SCORE = 1
+const MAX_TARGET_SCORE = 1000
 
 const emit = defineEmits<{
   start: []
@@ -43,6 +45,16 @@ function startMatch() {
   gameStore.startMatch()
   emit('start')
 }
+
+const handleTargetScoreWheel = useNumberInputWheel(MIN_TARGET_SCORE, MAX_TARGET_SCORE)
+
+function onTargetScoreWheel(e: WheelEvent) {
+  handleTargetScoreWheel(
+    e,
+    () => gameStore.targetScore ?? MIN_TARGET_SCORE,
+    (v) => gameStore.setTargetScore(v)
+  )
+}
 </script>
 
 <template>
@@ -58,8 +70,11 @@ function startMatch() {
         :model-value="gameStore.targetScore ?? ''"
         type="number"
         placeholder="e.g. 300"
+        min="1"
+        max="1000"
         class="w-24"
         @update:model-value="(v) => gameStore.setTargetScore(v ? Number(v) : null)"
+        @wheel="onTargetScoreWheel"
       />
     </div>
 

@@ -25,6 +25,12 @@ const handsSum = computed(() =>
 
 const canSubmit = computed(() => handsSum.value === 13)
 
+const handleHandsWheel = useNumberInputWheel(0, 13)
+
+function onHandsWheel(e: WheelEvent, playerId: string) {
+  handleHandsWheel(e, () => handsWon.value[playerId] ?? 0, (v) => (handsWon.value[playerId] = v))
+}
+
 function submit() {
   error.value = ''
   const result = gameStore.completeRound(handsWon.value)
@@ -62,6 +68,7 @@ function submit() {
             max="13"
             size="lg"
             class="flex-1"
+            @wheel="onHandsWheel($event, player.id)"
           />
           <span class="text-sm opacity-80">Won (0–13)</span>
         </div>

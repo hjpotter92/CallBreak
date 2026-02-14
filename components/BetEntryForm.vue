@@ -16,7 +16,7 @@ const bets = ref<Record<string, number>>({})
 const error = ref('')
 
 onMounted(() => {
-  gameStore.players.forEach((p) => (bets.value[p.id] = 0))
+  gameStore.players.forEach((p) => (bets.value[p.id] = 2))
 })
 
 const bidSum = computed(() =>
@@ -26,17 +26,23 @@ const bidSum = computed(() =>
 const canSubmit = computed(() => {
   const sum = bidSum.value
   if (sum < 10) return false
-  return Object.values(bets.value).every((v) => v >= 2 && v <= 13)
+  return Object.values(bets.value).every((v) => v >= 2 && v <= 10)
 })
 
 const validationMessage = computed(() => {
   if (bidSum.value < 10) {
     return `Total bets must be 10 or more. Current sum: ${bidSum.value}.`
   }
-  const invalid = Object.values(bets.value).find((v) => v < 2 || v > 13)
-  if (invalid !== undefined) return 'Each bid must be 2–13.'
+  const invalid = Object.values(bets.value).find((v) => v < 2 || v > 10)
+  if (invalid !== undefined) return 'Each bid must be 2–10.'
   return ''
 })
+
+const handleBidWheel = useNumberInputWheel(2, 10)
+
+function onBidWheel(e: WheelEvent, playerId: string) {
+  handleBidWheel(e, () => bets.value[playerId] ?? 0, (v) => (bets.value[playerId] = v))
+}
 
 function submit() {
   error.value = ''
@@ -72,11 +78,12 @@ function submit() {
             v-model.number="bets[player.id]"
             type="number"
             min="0"
-            max="13"
+            max="10"
             size="lg"
             class="flex-1"
+            @wheel="onBidWheel($event, player.id)"
           />
-          <span class="text-sm opacity-80">Bid (2–13)</span>
+          <span class="text-sm opacity-80">Bid (2–10)</span>
         </div>
       </div>
     </div>

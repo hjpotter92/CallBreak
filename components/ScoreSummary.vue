@@ -10,7 +10,7 @@ function playerColor(player: Player) {
 
 const expandedRound = ref<number | null>(null)
 
-const totals = computed(() => gameStore.totals)
+const totals = computed(() => gameStore?.totals ?? {})
 
 function toggleRoundDetail(roundIndex: number) {
   expandedRound.value = expandedRound.value === roundIndex ? null : roundIndex

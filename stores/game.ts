@@ -40,7 +40,8 @@ interface GameState {
 const MIN_PLAYERS = 2
 const MAX_PLAYERS = 6
 const MIN_BID = 2
-const MAX_BID = 13
+const MAX_BID = 10
+const MAX_HANDS_WON = 13
 const CARDS_PER_ROUND = 13
 const MIN_BID_SUM = 10
 
@@ -68,10 +69,16 @@ export const useGameStore = defineStore('game', {
       })
       return t
     },
-    winner: (state, getters): Player | null => {
+    winner: (state): Player | null => {
       const target = state.targetScore
       if (!target) return null
-      const totals = getters.totals as Record<string, number>
+      const totals: Record<string, number> = {}
+      state.players.forEach((p) => (totals[p.id] = 0))
+      state.rounds.forEach((r) => {
+        Object.entries(r.scores ?? {}).forEach(([id, s]) => {
+          totals[id] = (totals[id] ?? 0) + s
+        })
+      })
       const over = state.players.filter((p) => (totals[p.id] ?? 0) >= target)
       return over.length === 1 ? over[0] : null
     },
@@ -127,7 +134,7 @@ export const useGameStore = defineStore('game', {
       const sum = Object.values(handsWon).reduce((a, b) => a + b, 0)
       if (sum !== CARDS_PER_ROUND)
         return { ok: false, error: `Hands won must sum to ${CARDS_PER_ROUND}` }
-      const invalid = Object.values(handsWon).find((v) => v < 0 || v > MAX_BID)
+      const invalid = Object.values(handsWon).find((v) => v < 0 || v > MAX_HANDS_WON)
       if (invalid !== undefined)
         return { ok: false, error: 'Each hands won must be 0–13' }
       round.handsWon = { ...handsWon }
